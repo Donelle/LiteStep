@@ -96,7 +96,7 @@ void CLRModule::Quit()
 
 HINSTANCE CLRModule::GetInstance() const
 {
-	return HINSTANCE();
+	return m_Instance;
 }
 
 
@@ -151,6 +151,8 @@ bool CLRModule::_Initialize()
 			LSLogPrintf(LOG_ERROR, "CLRModule", "CLR failed to start w/hr 0x%08lx\n", hr);
 			break;
 		}
+
+        m_Instance = HINSTANCE();
 	} while (false);
 
 	//

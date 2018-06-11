@@ -33,6 +33,7 @@ private:
 	ICorRuntimeHost *m_pCorRuntimeHost;
 	ICLRMetaHost	*m_pMetaHost;
 	ICLRRuntimeInfo *m_pRuntimeInfo;
+    HINSTANCE        m_Instance;
 
 public:
 	CLRModule(const std::wstring& sLocation, DWORD dwFlags);

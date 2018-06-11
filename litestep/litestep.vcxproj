@@ -123,6 +123,7 @@
     <ClCompile Include="CLRModule.cpp" />
     <ClCompile Include="COMFactory.cpp" />
     <ClCompile Include="COMService.cpp" />
+    <ClCompile Include="CoreCLRModule.cpp" />
     <ClCompile Include="DataStore.cpp" />
     <ClCompile Include="DDEService.cpp" />
     <ClCompile Include="DDEStub.cpp" />
@@ -148,6 +149,7 @@
     <ClInclude Include="buildoptions.h" />
     <ClInclude Include="CLRModule.h" />
     <ClInclude Include="COMService.h" />
+    <ClInclude Include="CoreCLRModule.h" />
     <ClInclude Include="DataStore.h" />
     <ClInclude Include="DDEService.h" />
     <ClInclude Include="DDEStub.h" />
@@ -161,6 +163,7 @@
     <ClInclude Include="MessageManager.h" />
     <ClInclude Include="Module.h" />
     <ClInclude Include="ModuleManager.h" />
+    <ClInclude Include="mscoree.h" />
     <ClInclude Include="NativeModule.h" />
     <ClInclude Include="RecoveryMenu.h" />
     <ClInclude Include="ShellDesktopTray.h" />
