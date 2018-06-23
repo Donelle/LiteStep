@@ -74,6 +74,7 @@ private:
     void _GenerateTrustedAssemblyList();
     void _AddFilesToTrustedAssembliesList(TCHAR* location);
     bool _ContainsTrustedAssembly(TCHAR * fileName, const TCHAR** fileExts);
+    void _RemoveExtensionAndNi(TCHAR * fileName);
 };
 
 #endif
