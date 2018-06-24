@@ -164,7 +164,7 @@
     <ClInclude Include="MessageManager.h" />
     <ClInclude Include="Module.h" />
     <ClInclude Include="ModuleManager.h" />
-    <ClInclude Include="mscoree.h" />
+    <ClInclude Include="mscoree_core.h" />
     <ClInclude Include="NativeModule.h" />
     <ClInclude Include="RecoveryMenu.h" />
     <ClInclude Include="ShellDesktopTray.h" />

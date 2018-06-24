@@ -20,7 +20,7 @@
 //
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 #include "CoreCLRModule.h"
-#include "mscoree.h"
+#include "mscoree_core.h"
 #include "../utility/core.hpp"
 #include "../utility/safeutility.h"
 #include <string>       
