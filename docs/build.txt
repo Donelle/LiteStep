@@ -8,17 +8,18 @@
 
  For build instructions, please review
 
-  - build_vc11.txt   (official supported method)
-  - build_mingw.txt
+  - build_vs2017.txt (official supported method)
+  - build_mingw.txt  (out of date: does not build .NET module support)
 
  The LiteStep source is segmented into separate code modules.  The source folder
  structure represents these code modules.
 
   \LiteStep
-    - Contains build environment project files
+    - Contains build environment project files (litestep.sln, litestep.props)
 
   \LiteStep\litestep
-    - Contains the "litestep.exe" source files
+    - Contains the "litestep.exe" source files, including the .NET Framework
+      (CLRModule) and .NET Core (CoreCLRModule) module loaders
 
   \LiteStep\lsapi
     - Contains the "lsapi.dll" source files
@@ -26,15 +27,38 @@
   \LiteStep\utility
     - Contains common utility source files used across all code modules
 
+  \LiteStep\LsapiSharp
+    - Contains the "LsapiSharp.dll" source: C# bindings for lsapi.dll,
+      targeting .NET Framework 2.0
+
+  \LiteStep\LsapiSharpCore
+    - Builds "LsapiSharpCore.dll" for .NET Core modules (netstandard2.0) from
+      the same source file as LsapiSharp (LsapiSharp\NativeMethods.cs)
+
+  \LiteStep\LsapiSharp.Test
+    - Contains NUnit tests for LsapiSharp
+
+  \LiteStep\sdk
+    - Contains the module SDK: lsapi.h, import libraries (lsapi32.lib,
+      lsapi64.lib), prebuilt LsapiSharp assemblies, API documentation, and
+      example modules (including HelloCLR and HelloCoreCLR)
+
 
 -- BINARY FILE DESCRIPTION -----------------------------------------------------
 
- - litestep.exe     Main executable. Loads modules, handles window messages
-                    communication. Runs startup apps, includes DDE and tray
-                    services.
+ - litestep.exe       Main executable. Loads modules, handles window messages
+                      communication. Runs startup apps, includes DDE and tray
+                      services. Hosts the .NET Framework or .NET Core runtime
+                      for modules loaded with the "clr" or "coreclr" token.
 
- - lsapi.dll        LiteStep API for modules to use. Loads and parses step.rc;
-                    handles $evars$ and all other configuration. Manages !bang
-                    commands, includes core !bangs.
+ - lsapi.dll          LiteStep API for modules to use. Loads and parses step.rc;
+                      handles $evars$ and all other configuration. Manages !bang
+                      commands, includes core !bangs.
+
+ - LsapiSharp.dll     LiteStep API bindings for .NET Framework modules.
+
+ - LsapiSharpCore.dll LiteStep API bindings for .NET Core modules.
 
 -- LITESTEP MODULE DEVELOPMENT -------------------------------------------------
+
+ See README.md for how to write and load a .NET module.

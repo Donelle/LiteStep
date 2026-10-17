@@ -4,6 +4,15 @@
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
 
+-- OUT OF DATE -----------------------------------------------------------------
+
+ The MinGW Makefile has not been updated for this fork. It does not compile
+ the .NET module loaders (CLRModule.cpp, CoreCLRModule.cpp) or several other
+ newer litestep sources (eg. COMService.cpp, ExplorerService.cpp,
+ NativeModule.cpp), and it does not build LsapiSharp. Use build_vs2017.txt
+ instead.
+
+
 -- BUILD REQUIREMENTS ----------------------------------------------------------
 
  - TDM/MinGW Installer 1.812.0 (www.tdragon.net/recentgcc/)
