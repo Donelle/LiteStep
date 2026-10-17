@@ -24,9 +24,25 @@
  Newer versions of Visual Studio: the C++ projects do NOT compile with the
  VS 2022 compiler (v143), even when the toolset is overridden. lsapi calls
  lower_bound/upper_bound on std::unordered_multimap, which the VS 2017
- standard library allowed but later versions removed. A newer Visual Studio
- can still be used if its installer adds the VS 2017 (v141) C++ build tools
- and Windows XP support for v141 (untested).
+ standard library allowed but later versions removed.
+
+ Visual Studio 2022 works once its installer adds the VS 2017 tools. In the
+ Visual Studio Installer, choose Modify > Individual components and add:
+
+   - MSVC v141 - VS 2017 C++ x64/x86 build tools
+     (Microsoft.VisualStudio.Component.VC.v141.x86.x64)
+   - C++ Windows XP Support for VS 2017 (v141) tools
+     (Microsoft.VisualStudio.Component.WinXP)
+
+ Or from an elevated prompt (close Visual Studio and any MSBuild processes
+ first; the installer exits with code 8006 if they are running):
+
+   "%ProgramFiles(x86)%\Microsoft Visual Studio\Installer\setup.exe" modify
+     --installPath "<VS 2022 install path>"
+     --add Microsoft.VisualStudio.Component.VC.v141.x86.x64
+     --add Microsoft.VisualStudio.Component.WinXP --passive
+
+ Then open litestep.sln without retargeting the projects.
 
 
 -- BUILDING LITESTEP -----------------------------------------------------------
