@@ -1,0 +1,111 @@
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+    LiteStep 0.25.0
+    Visual Studio 2017 Developer Information
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+
+
+-- BUILD REQUIREMENTS ----------------------------------------------------------
+
+ Native code (litestep.exe, lsapi.dll, utility.lib):
+
+ - Visual Studio 2017 with the "Desktop development with C++" workload
+ - The "Windows XP support for C++" component. The C++ projects use the
+   v141_xp platform toolset, which this component provides.
+
+ .NET code (LsapiSharp, LsapiSharpCore, LsapiSharp.Test):
+
+ - The ".NET desktop development" workload
+ - .NET Framework 3.5 SP1. LsapiSharp and the HelloCLR example target
+   .NET Framework 2.0, and MSBuild needs 3.5 SP1 installed to target 2.0.
+ - .NET Framework 4.6.1 targeting pack (LsapiSharp.Test)
+ - .NET Core SDK 2.0 or later (LsapiSharpCore targets netstandard2.0, the
+   HelloCoreCLR example targets netcoreapp2.0)
+
+ Newer versions of Visual Studio: the C++ projects do NOT compile with the
+ VS 2022 compiler (v143), even when the toolset is overridden. lsapi calls
+ lower_bound/upper_bound on std::unordered_multimap, which the VS 2017
+ standard library allowed but later versions removed.
+
+ Visual Studio 2022 works once its installer adds the VS 2017 tools. In the
+ Visual Studio Installer, choose Modify > Individual components and add:
+
+   - MSVC v141 - VS 2017 C++ x64/x86 build tools
+     (Microsoft.VisualStudio.Component.VC.v141.x86.x64)
+   - C++ Windows XP Support for VS 2017 (v141) tools
+     (Microsoft.VisualStudio.Component.WinXP)
+
+ Or from an elevated prompt (close Visual Studio and any MSBuild processes
+ first; the installer exits with code 8006 if they are running):
+
+   "%ProgramFiles(x86)%\Microsoft Visual Studio\Installer\setup.exe" modify
+     --installPath "<VS 2022 install path>"
+     --add Microsoft.VisualStudio.Component.VC.v141.x86.x64
+     --add Microsoft.VisualStudio.Component.WinXP --passive
+
+ Then open litestep.sln without retargeting the projects.
+
+
+-- BUILDING LITESTEP -----------------------------------------------------------
+
+ A. Get the source code
+ ----------------------
+
+  1. Clone the repository (eg. into C:\src\LiteStep). The top-level folder
+     should contain:
+
+     \LiteStep
+         litestep.sln
+         litestep.props
+         \litestep
+         \lsapi
+         \utility
+         \LsapiSharp
+         \LsapiSharpCore
+         \LsapiSharp.Test
+         \sdk
+
+ B. Compile
+ ----------
+
+  1. Open "litestep.sln" in Visual Studio 2017.
+
+  2. Pick a configuration (Debug or Release) and a platform (x64 or Win32),
+     then build the solution. Visual Studio restores the NuGet packages
+     (NUnit for LsapiSharp.Test) on the first build.
+
+     The .NET projects default to x64 (LsapiSharp targets x64 even for
+     "Any CPU"), so use the x64 platform when working on .NET modules.
+
+     From a Developer Command Prompt:
+
+       msbuild litestep.sln /restore /p:Configuration=Release;Platform=x64
+
+     /restore only restores LsapiSharpCore (a PackageReference project). For
+     LsapiSharp.Test, which uses packages.config, run "nuget restore
+     litestep.sln" first, or build once in Visual Studio.
+
+  3. The native binaries are written to the bin folder under the source
+     directory:
+
+       bin\Debug_x64      bin\Release_x64      bin\Release_Win32
+       bin\Debug_x86      (the Debug|Win32 configuration)
+
+     Static libraries (utility.lib) go to <project>\bin\<Configuration>_
+     <Platform>. The .NET assemblies go to each project's own bin folder,
+     eg. LsapiSharp\bin\x64\Release\LsapiSharp.dll.
+
+  4. After it builds, LsapiSharp.Test copies lsapi.dll from
+     bin\<Configuration>_<Platform> into its output folder. Build the native
+     projects for the same configuration and platform first.
+
+
+-- BUILDING THE .NET EXAMPLES --------------------------------------------------
+
+ The example modules in sdk\examples are not part of litestep.sln. Build them
+ separately; each one references the binding project directly:
+
+  - sdk\examples\HelloCLR\HelloCLR.csproj          (references LsapiSharp)
+  - sdk\examples\HelloCoreCLR\HelloCoreCLR.csproj  (references LsapiSharpCore)
+
+ See README.md for the step.rc settings (LSCLRVersion, LSCoreCLRVersion and
+ the "clr"/"coreclr" LoadModule tokens) that load these modules.
